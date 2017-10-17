@@ -8,18 +8,53 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController , UITextFieldDelegate{
 
+    var label:UILabel?;
+    var button:UIButton?;
+    var textField:UITextField?;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        //Setting background
+        view.backgroundColor = UIColor.white;
+        navigationItem.title = "Testing";
+        setUpUI();
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder();
+        return false;
     }
-
-
+    
+    func setUpUI(){
+        textField = UITextField(frame: CGRect(x: 20, y: 100, width: view.frame.width-40, height: 50));
+        textField?.placeholder = "Enter you name";
+        textField?.borderStyle = .roundedRect;
+        textField?.textAlignment = .center;
+        textField?.delegate = self;
+        
+        
+        button = UIButton(frame: CGRect(x:20 , y:(textField?.frame.maxY)!+14, width: view.frame.width-40, height: 50));
+        button?.setTitle("Touch me", for: .normal);
+        button?.setTitleColor(.white, for: .normal);
+        button?.backgroundColor = .blue;
+        button?.addTarget(self, action: #selector(handleClickButton), for: .touchUpInside);
+        
+        
+        label = UILabel(frame:CGRect(x: 20, y: (button?.frame.maxY)!+10, width: view.frame.width-40, height: 50));
+        label?.textColor = .black;
+        label?.textAlignment = .center;
+        
+        //setting up the views
+        self.view.addSubview(textField!);
+        self.view.addSubview(button!);
+        self.view.addSubview(label!);
+        
+    }
+    
+    @objc func handleClickButton(){
+        label?.text = "Bienvenido, \(textField?.text!)";
+    }
 }
 
